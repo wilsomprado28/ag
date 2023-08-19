@@ -43,7 +43,7 @@ function deletar(){
           <div class="col-lg-12 d-flex align-items-stretch">
             <div class="card w-100">
               <div class="card-body p-4">
-                <h5 class="card-title fw-semibold mb-4">Lista de Cadastro</h5>
+                <h5 class="card-title fw-semibold mb-4">Aniversariantes</h5>
                 <div class="table-responsive">
                   <table class="table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
@@ -55,7 +55,7 @@ function deletar(){
                           <h6 class="fw-semibold mb-0">Nome</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Data de nascimento</h6>
+                          <h6 class="fw-semibold mb-0">Aniversário</h6>
                         </th>
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Celular</h6>
@@ -68,12 +68,27 @@ function deletar(){
                     </thead>
                     <tbody>
                        
-                      <?php 
-            $result_nomes = "SELECT * FROM tblistacl";
-         $resultado = mysqli_query($conn , $result_nomes);
-         while ($linha = mysqli_fetch_array($resultado)){
-        echo
-        '<thead><tr>
+        <?php 
+          $result_nomes = "SELECT * FROM tblistacl 
+          where MONTH(data) >=  MONTH(NOW())
+          and DAY(data) >=  DAY(NOW()) 
+          order by MONTH(data) asc, DAY(data) asc, nome desc";
+
+          $resultado = mysqli_query($conn , $result_nomes);
+          while ($linha = mysqli_fetch_array($resultado)){          
+          date_default_timezone_set('America/Sao_Paulo'); 
+
+          $diaAtual =  date('d');
+          $mesAtual = date('m');
+          $diaNascimento =   date('d', strtotime($linha['data']));
+          $mesNascimento =   date('m', strtotime($linha['data']));
+          $classAniversariante = '';
+          if (($diaAtual == $diaNascimento) && ($mesAtual == $mesNascimento)){
+            $classAniversariante = 'style="background-color:#c3f7c5"';
+          }
+
+       echo
+        '<thead><tr '.$classAniversariante.'>
                         <th class="border-bottom-0">'.$linha['id'].'</th>
                         <th class="border-bottom-0">
                             '.$linha['nome'].'

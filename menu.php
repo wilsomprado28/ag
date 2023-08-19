@@ -68,6 +68,33 @@
               </a>
             </li>
             <li class="sidebar-item">
+              <a class="sidebar-link" href="./aniversario.php" aria-expanded="false">
+                
+              <span>
+              <?php 
+                  $result_nomes = "SELECT * FROM tblistacl 
+                  where MONTH(data) =  MONTH(NOW()) 
+                  and DAY(data) =  DAY(NOW())";
+
+                  $resultado = mysqli_query($conn , $result_nomes);
+                  $quantidadeAniversariantes = 0;
+                  while ($linha = mysqli_fetch_array($resultado)){  
+                    $quantidadeAniversariantes = $quantidadeAniversariantes + 1;
+                  }
+                  
+                  $notificacao = '<i class="ti ti-bell"></i>';
+
+                  if ($quantidadeAniversariantes > 0) {
+                    $notificacao = '<i  style="color:red" class="ti ti-bell"><b>'.$quantidadeAniversariantes.'</b></i>';
+                  }
+                  echo $notificacao;
+                ?>
+                  
+                </span>  
+                <span class="hide-menu ">ANIVERSARIO</span>                
+              </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="./pesquisar.php" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
